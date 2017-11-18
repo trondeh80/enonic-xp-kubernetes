@@ -20,7 +20,6 @@ RUN apt-get -y install oracle-java8-installer oracle-java8-set-default
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> /etc/environment
 
 # Setting up enonic-xp
-
 ENV XP_DISTRO_VERSION 6.12.2
 ENV XP_ROOT /enonic-xp
 ENV XP_HOME /enonic-xp/home
@@ -46,13 +45,15 @@ RUN cp -rf /tmp/enonic-xp-$XP_DISTRO_VERSION/* $XP_ROOT/.
 # Adding Enonic xp user
 RUN adduser --home $XP_ROOT --gecos "" --no-create-home --UID $XP_UID --disabled-password $XP_USER
 RUN chown -R $XP_USER $XP_ROOT
+
 # Adding launcher script
-ADD launcher.sh /launcher.sh
-RUN chmod +x /launcher.sh
+COPY launcher.sh /launcher.sh
+RUN chmod 777 /launcher.sh
 
 USER enonic-xp
 
 # Exposing web port, debug port and telnet port
 EXPOSE 8080 5005 5555
 
-CMD /launcher.sh
+# CMD /launcher.sh
+CMD $XP_ROOT/bin/server.sh

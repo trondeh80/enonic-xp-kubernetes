@@ -13,8 +13,10 @@ gcloud container builds submit --tag gcr.io/enonic-xp-cloud/enonic-xp-image .
 # Nå kan du referere til dette bildet i k8s yaml filer: image: gcr.io/enonic-xp-cloud/enonic-xp-image - Se enonic-xp.yaml.
 
 # Når imaget er registrert hos googles container register. Spinn opp enonix-xp, og eksponér port 8080 publicly:
-kubectl create -f enonic-xp.yaml
-kubectl create -f http-service.yaml
+kubectl apply -f enonic-xp.yaml
+kubectl apply -f http-service.yaml
+
+# Problemer med enonic-xp container. Den finner ikke launcher.sh!
 
 # Todo: Gjenta prosessen for xp-home. Registrére og kjøre kubectl create -f xp-home.yaml
 

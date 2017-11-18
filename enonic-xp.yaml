@@ -5,6 +5,22 @@ metadata:
   labels:
     app: enonic-xp
 spec:
- containers:
-    - name: enonic-xp
-      image: gcr.io/enonic-xp-cloud/enonic-xp-image
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: enonic-xp
+    spec:
+        containers:
+           - name: enonic-xp
+             image: gcr.io/enonic-xp-cloud/enonic-xp-image
+             imagePullPolicy: Always
+             env:
+             - name: "CLUSTER_NAME"
+               value: "myesdb"
+             - name: "DISCOVERY_SERVICE"
+               value: "elasticsearch"      
+             ports:
+             - containerPort: 8080
+               name: http
+               protocol: TCP

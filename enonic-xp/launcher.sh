@@ -2,7 +2,6 @@
 echo "Launching Enonic xp container..."
 echo "Setting filesystem permissions"
 
-
 if [[ -d $XP_HOME ]]
 	then
 	for XP_DISTRO_DIR in $(ls -1 $XP_ROOT/home.org )
