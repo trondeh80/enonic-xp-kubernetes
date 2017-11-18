@@ -6,14 +6,11 @@ Jeg har satt opp et cluster i google cloud som heter "enonic-xp-cluster", i et p
 # hente ned credentials for cluster
 gcloud container clusters get-credentials enonic-xp-cluster
 
-# Registrere image til google cloud (bare serveren):
+# Registrere image til google cloud:
 cd enonic-xp
-docker build -t enonic-xp-image .
-docker tag enonic-xp-image gcr.io/enonic-xp-cloud/enonic-xp-image
-gcloud docker -- push gcr.io/enonic-xp-cloud/enonic-xp-image
+gcloud container builds submit --tag gcr.io/enonic-xp-cloud/enonic-xp-image .
 
-# Nå kan du referere til dette bildet i k8s yaml filer: image: gcr.io/enonic-xp-cloud/enonic-xp-image
-# Se enonic-xp.yaml.
+# Nå kan du referere til dette bildet i k8s yaml filer: image: gcr.io/enonic-xp-cloud/enonic-xp-image - Se enonic-xp.yaml.
 
 # Når imaget er registrert hos googles container register. Spinn opp enonix-xp, og eksponér port 8080 publicly:
 kubectl create -f enonic-xp.yaml
@@ -21,12 +18,10 @@ kubectl create -f http-service.yaml
 
 # Todo: Gjenta prosessen for xp-home. Registrére og kjøre kubectl create -f xp-home.yaml
 
-# Todo: java8 er base-image for enonic-xp:
-cd java8
-docker build -t enonic/java8 .
-docker run -it -rm --name java8 enonic/java8 bash
 
-# Sette opp elasticsearch for seg selv:
+################################################
+### Sette opp elasticsearch for seg selv:
+################################################
 
 # elasticsearch & service-account:  https://github.com/kubernetes/examples/blob/master/staging/elasticsearch/README.md
 kubectl create -f service-account.yaml
