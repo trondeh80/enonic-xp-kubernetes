@@ -23,5 +23,3 @@ gcloud docker -- push gcr.io/enonic-xp-cloud/enonic-xp-image
 ## Todo:
 Enonix xp docker bildet mangler oppsett for å koble mot elasticsearch serveren. elasticsarch.cfg filen må endres.
 Mangler også oppsett for apache vhost
-
-Mangler loadbalancer som exposer port 8080 inn til enonic-xp.
