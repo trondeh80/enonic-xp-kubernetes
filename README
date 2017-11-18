@@ -17,5 +17,11 @@ docker build -t enonic-xp-image .
 docker tag enonic-xp-image gcr.io/enonic-xp-cloud/enonic-xp-image
 gcloud docker -- push gcr.io/enonic-xp-cloud/enonic-xp-image
 
-
 # Nå kan du referere til dette bildet i k8s yaml filer: image: gcr.io/enonic-xp-cloud/enonic-xp-image
+# Se enonic-xp.yaml.
+
+## Todo:
+Enonix xp docker bildet mangler oppsett for å koble mot elasticsearch serveren. elasticsarch.cfg filen må endres.
+Mangler også oppsett for apache vhost
+
+Mangler loadbalancer som exposer port 8080 inn til enonic-xp.
