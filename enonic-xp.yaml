@@ -9,6 +9,7 @@ spec:
   template:
     metadata:
       labels:
+        app: enonic-xp
         component: enonic-xp
     spec:
         containers:
@@ -17,10 +18,10 @@ spec:
              imagePullPolicy: Always
              env:
              - name: "CLUSTER_NAME"
-               value: "myesdb"
+               value: "enonic-xp-cluster"
              - name: "DISCOVERY_SERVICE"
-               value: "elasticsearch"      
+               value: "enonic-xp"
              ports:
              - containerPort: 8080
-               name: http
+               name: enonic-xp
                protocol: TCP

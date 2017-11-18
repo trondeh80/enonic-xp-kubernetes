@@ -11,4 +11,4 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
-    app: enonic-xp
+      app: enonic-xp
