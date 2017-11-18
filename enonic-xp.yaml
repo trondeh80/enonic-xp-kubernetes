@@ -1,0 +1,10 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: enonic-xp
+  labels:
+    app: enonic-xp
+spec:
+ containers:
+    - name: enonic-xp
+      image: gcr.io/enonic-xp-cloud/enonic-xp-image

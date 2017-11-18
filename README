@@ -1,0 +1,21 @@
+# Repo for et enkelt oppsett for en enonic-xp app i kubernetes
+
+Jeg har satt opp et cluster i google cloud som heter enonic-xp-cluster, i et prosjekt som heter enonic-xp-cloud.
+
+# Spinne opp på ny maskin
+# hente ned credentials for cluster
+gcloud container clusters get-credentials enonic-xp-cluster
+
+# elasticsearch & service-account:  https://github.com/kubernetes/examples/blob/master/staging/elasticsearch/README.md
+kubectl create -f service-account.yaml
+kubectl create -f elasticsearch-replication-controller.yaml
+kubectl create -f service-account.yaml
+
+# Registrere image til google cloud (bare serveren):
+cd enonic-xp
+docker build -t enonic-xp-image .
+docker tag enonic-xp-image gcr.io/enonic-xp-cloud/enonic-xp-image
+gcloud docker -- push gcr.io/enonic-xp-cloud/enonic-xp-image
+
+
+# Nå kan du referere til dette bildet i k8s yaml filer: image: gcr.io/enonic-xp-cloud/enonic-xp-image
