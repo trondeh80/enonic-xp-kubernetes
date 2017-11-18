@@ -21,6 +21,10 @@ kubectl create -f http-service.yaml
 
 # Todo: Gjenta prosessen for xp-home. Registrére og kjøre kubectl create -f xp-home.yaml
 
+# Todo: java8 er base-image for enonic-xp:
+cd java8
+docker build -t enonic/java8 .
+docker run -it -rm --name java8 enonic/java8 bash
 
 # Sette opp elasticsearch for seg selv:
 
