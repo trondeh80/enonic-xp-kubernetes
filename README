@@ -2,7 +2,10 @@
 
 Jeg har satt opp et cluster i google cloud som heter "enonic-xp-cluster", i et prosjekt som heter "enonic-xp-cloud".
 
-# Spinne opp på ny maskin
+## Spinne opp på ny maskin
+# 1. Installere kubernetes & gcloud.
+# 2. Aktivere google container registry API i google developer console.
+
 # hente ned credentials for cluster
 gcloud container clusters get-credentials enonic-xp-cluster
 
@@ -16,9 +19,17 @@ gcloud container builds submit --tag gcr.io/enonic-xp-cloud/enonic-xp-image .
 kubectl apply -f enonic-xp.yaml
 kubectl apply -f http-service.yaml
 
-# Problemer med enonic-xp container. Den finner ikke launcher.sh!
 
-# Todo: Gjenta prosessen for xp-home. Registrére og kjøre kubectl create -f xp-home.yaml
+######
+# Aktivere clustering funksjonalitet
+######
+
+# Sette opp filserver
+https://console.cloud.google.com/launcher/details/click-to-deploy-images/singlefs?project=enonic-xp-cloud
+
+# Noder må mounte filsystemet på filserveren for å sette blobstore path
+
+
 
 
 ################################################

@@ -32,10 +32,10 @@ RUN echo "export XP_HOME=$XP_HOME" >> /etc/environment
 RUN echo "export XP_USER=$XP_USER" >> /etc/environment
 RUN echo "export XP_UID=$XP_UID" >> /etc/environment
 
-# Install other software
+# Install wget and zip
 RUN apt-get -y install wget zip
 
-# Extracting Enonic xp
+# Downloading and Extracting Enonic xp
 RUN wget -O /tmp/distro-$XP_DISTRO_VERSION.zip http://repo.enonic.com/public/com/enonic/xp/distro/$XP_DISTRO_VERSION/distro-$XP_DISTRO_VERSION.zip
 RUN cd /tmp ; unzip distro-$XP_DISTRO_VERSION.zip
 RUN mv /tmp/enonic-xp-$XP_DISTRO_VERSION/home /tmp/enonic-xp-$XP_DISTRO_VERSION/home.org
@@ -46,14 +46,10 @@ RUN cp -rf /tmp/enonic-xp-$XP_DISTRO_VERSION/* $XP_ROOT/.
 RUN adduser --home $XP_ROOT --gecos "" --no-create-home --UID $XP_UID --disabled-password $XP_USER
 RUN chown -R $XP_USER $XP_ROOT
 
-# Adding launcher script
-COPY launcher.sh /launcher.sh
-RUN chmod 777 /launcher.sh
-
 USER enonic-xp
 
 # Exposing web port, debug port and telnet port
 EXPOSE 8080 5005 5555
 
-# CMD /launcher.sh
+# Run server
 CMD $XP_ROOT/bin/server.sh
