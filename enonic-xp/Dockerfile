@@ -17,9 +17,8 @@ RUN apt-get -y install software-properties-common
 RUN add-apt-repository -y ppa:webupd8team/java
 RUN apt-get update
 RUN apt-get -y install oracle-java8-installer oracle-java8-set-default
+RUN apt-get -y install nfs-common
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> /etc/environment
-
-RUN apt-get install nfs-common
 
 # Blobstore location:
 ENV XP_BLOB /blob
@@ -56,6 +55,8 @@ RUN chown -R $XP_USER $XP_ROOT
 ADD launcher.sh /launcher.sh
 RUN chmod +x /launcher.sh
 RUN chown $XP_USER /launcher.sh
+
+ADD com.enonic.xp.elasticsearch.cfg /tmp/config/com.enonic.xp.elasticsearch.cfg
 
 # Forcing unix style line-endings:
 RUN sed -i 's/\r$//' /launcher.sh

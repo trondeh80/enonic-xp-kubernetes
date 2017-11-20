@@ -25,3 +25,10 @@ spec:
              - containerPort: 8080
                name: enonic-xp
                protocol: TCP
+             volumeMounts:
+             - mountPath: "/blob"
+               name: blob-pv-storage
+        volumes:
+          - name: blob-pv-storage
+            persistentVolumeClaim:
+             claimName: blob-pv-claim

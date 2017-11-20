@@ -19,17 +19,24 @@ gcloud container builds submit --tag gcr.io/enonic-xp-cloud/enonic-xp-image .
 kubectl apply -f enonic-xp.yaml
 kubectl apply -f http-service.yaml
 
-
 ######
 # Aktivere clustering funksjonalitet
 ######
 
-# Sette opp filserver
+# ALT 1: Sette opp filserver
 https://console.cloud.google.com/launcher/details/click-to-deploy-images/singlefs?project=enonic-xp-cloud
-
+# mulig mount kommando: sudo mount -t nfs singlefs-1-vm:/data /mnt
 # Noder må mounte filsystemet på filserveren for å sette blobstore path
 
+# ALT 2: https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+# Aktivere volume:
+create -f enonic-xp-blob-volume.yaml
 
+# Aktivere claim:
+create -f enonic-blob-storage.yaml
+
+# Aktivere konfig for Enonic
+create -f enonic-xp.yaml
 
 
 ################################################
