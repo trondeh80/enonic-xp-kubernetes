@@ -1,5 +1,4 @@
 # Repo for et enkelt oppsett for en enonic-xp app i kubernetes
-
 Jeg har satt opp et cluster i google cloud som heter "enonic-xp-cluster", i et prosjekt som heter "enonic-xp-cloud".
 
 ## Spinne opp på ny maskin
@@ -8,6 +7,16 @@ Jeg har satt opp et cluster i google cloud som heter "enonic-xp-cluster", i et p
 
 # hente ned credentials for cluster
 gcloud container clusters get-credentials enonic-xp-cluster
+
+# Aktivere Storage funksjonalitet
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+
+# Aktiver volume:
+create -f enonic-xp-blob-volume.yaml
+
+# Aktiver claim:
+create -f enonic-blob-storage.yaml
+
 
 # Registrere image til google cloud:
 cd enonic-xp
@@ -18,22 +27,3 @@ gcloud container builds submit --tag gcr.io/enonic-xp-cloud/enonic-xp-image .
 # Når imaget er registrert hos googles container register. Spinn opp enonix-xp, og eksponér port 8080 publicly:
 kubectl apply -f enonic-xp.yaml
 kubectl apply -f http-service.yaml
-
-######
-# Aktivere clustering funksjonalitet
-######
-
-# ALT 1: Sette opp filserver
-https://console.cloud.google.com/launcher/details/click-to-deploy-images/singlefs?project=enonic-xp-cloud
-# mulig mount kommando: sudo mount -t nfs singlefs-1-vm:/data /mnt
-# Noder må mounte filsystemet på filserveren for å sette blobstore path
-
-# ALT 2: https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
-# Aktivere volume:
-create -f enonic-xp-blob-volume.yaml
-
-# Aktivere claim:
-create -f enonic-blob-storage.yaml
-
-# Aktivere konfig for Enonic
-create -f enonic-xp.yaml
