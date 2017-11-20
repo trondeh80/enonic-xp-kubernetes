@@ -19,6 +19,11 @@ RUN apt-get update
 RUN apt-get -y install oracle-java8-installer oracle-java8-set-default
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> /etc/environment
 
+RUN apt-get install nfs-common
+
+# Blobstore location:
+ENV XP_BLOB /blob
+
 # Setting up enonic-xp
 ENV XP_DISTRO_VERSION 6.12.2
 ENV XP_ROOT /enonic-xp
@@ -31,6 +36,7 @@ RUN echo "export XP_ROOT=$XP_ROOT" >> /etc/environment
 RUN echo "export XP_HOME=$XP_HOME" >> /etc/environment
 RUN echo "export XP_USER=$XP_USER" >> /etc/environment
 RUN echo "export XP_UID=$XP_UID" >> /etc/environment
+RUN echo "export XP_BLOB=$XP_BLOB" >> /etc/environment
 
 # Install wget and zip
 RUN apt-get -y install wget zip
@@ -46,10 +52,19 @@ RUN cp -rf /tmp/enonic-xp-$XP_DISTRO_VERSION/* $XP_ROOT/.
 RUN adduser --home $XP_ROOT --gecos "" --no-create-home --UID $XP_UID --disabled-password $XP_USER
 RUN chown -R $XP_USER $XP_ROOT
 
-USER enonic-xp
+# copying the launcher
+ADD launcher.sh /launcher.sh
+RUN chmod +x /launcher.sh
+RUN chown $XP_USER /launcher.sh
+
+# Forcing unix style line-endings:
+RUN sed -i 's/\r$//' /launcher.sh
+
+#USER enonic-xp
 
 # Exposing web port, debug port and telnet port
 EXPOSE 8080 5005 5555
 
 # Run server
-CMD $XP_ROOT/bin/server.sh
+# CMD $XP_ROOT/bin/server.sh
+CMD /launcher.sh

@@ -26,5 +26,12 @@ else
 	cp -r $XP_ROOT/home.org $XP_HOME
 fi
 
+# mount fileshare
+mkdir $XP_BLOB
+mount -t nfs singlefs-1-vm:/data $XP_BLOB
+
+# Setting blobstore:
+echo "baseDir = $XP_BLOB" > $XP_HOME/config/com.enonic.xp.blobstore.file.cfg
+
 echo "Starting Enonic xp..."
 cd $XP_ROOT/bin ; ./server.sh $@
