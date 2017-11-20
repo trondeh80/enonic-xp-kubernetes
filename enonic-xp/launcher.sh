@@ -22,7 +22,7 @@ if [[ -d $XP_HOME ]]
 	fi
 
 else
-	echo "$XP_ROOT/home does not exist, copying files from distro"
+	echo "$XP_HOME does not exist, copying files from distro"
 	cp -r $XP_ROOT/home.org $XP_HOME
 fi
 
