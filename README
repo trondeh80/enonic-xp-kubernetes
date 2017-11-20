@@ -1,11 +1,12 @@
 # Repo for et enkelt oppsett for en enonic-xp app i kubernetes
+
 Jeg har satt opp et cluster i google cloud som heter "enonic-xp-cluster", i et prosjekt som heter "enonic-xp-cloud".
 
 ## Spinne opp på ny maskin
 # 1. Installere kubernetes & gcloud.
 # 2. Aktivere google container registry API i google developer console.
 
-# hente ned credentials for cluster
+# hente ned credentials for cluster slik at kubernetes kan bruke det
 gcloud container clusters get-credentials enonic-xp-cluster
 
 # Aktivere Storage funksjonalitet
@@ -17,13 +18,13 @@ create -f enonic-xp-blob-volume.yaml
 # Aktiver claim:
 create -f enonic-blob-storage.yaml
 
-
 # Registrere image til google cloud:
 cd enonic-xp
 gcloud container builds submit --tag gcr.io/enonic-xp-cloud/enonic-xp-image .
 
-# Nå kan du referere til dette bildet i k8s yaml filer: image: gcr.io/enonic-xp-cloud/enonic-xp-image - Se enonic-xp.yaml.
+# Nå kan du referere til dette bildet i k8s yaml filer:
+# enonic-xp.yaml: image: gcr.io/enonic-xp-cloud/enonic-xp-image
 
-# Når imaget er registrert hos googles container register. Spinn opp enonix-xp, og eksponér port 8080 publicly:
+# Spinn opp enonix-xp, og eksponér port 8080 publicly:
 kubectl apply -f enonic-xp.yaml
 kubectl apply -f http-service.yaml
