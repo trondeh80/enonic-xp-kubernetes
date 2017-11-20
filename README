@@ -37,16 +37,3 @@ create -f enonic-blob-storage.yaml
 
 # Aktivere konfig for Enonic
 create -f enonic-xp.yaml
-
-
-################################################
-### Sette opp elasticsearch for seg selv:
-################################################
-
-# elasticsearch & service-account:  https://github.com/kubernetes/examples/blob/master/staging/elasticsearch/README.md
-kubectl create -f service-account.yaml
-kubectl create -f elasticsearch-replication-controller.yaml
-kubectl create -f service-account.yaml
-
-## Todo:
-Enonic xp docker bildet mangler oppsett for å koble mot elasticsearch serveren. elasticsarch.cfg filen må endres.

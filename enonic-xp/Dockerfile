@@ -21,12 +21,12 @@ RUN apt-get -y install nfs-common
 RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> /etc/environment
 
 # Blobstore location:
-ENV XP_BLOB /blob
+ENV XP_BLOB /xp/blob
 
 # Setting up enonic-xp
 ENV XP_DISTRO_VERSION 6.12.2
 ENV XP_ROOT /enonic-xp
-ENV XP_HOME /enonic-xp/home
+ENV XP_HOME /xp/home
 ENV XP_USER enonic-xp
 ENV XP_UID 1337
 
@@ -67,5 +67,4 @@ RUN sed -i 's/\r$//' /launcher.sh
 EXPOSE 8080 5005 5555
 
 # Run server
-# CMD $XP_ROOT/bin/server.sh
 CMD /launcher.sh

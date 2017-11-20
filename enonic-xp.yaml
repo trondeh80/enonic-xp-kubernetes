@@ -26,7 +26,7 @@ spec:
                name: enonic-xp
                protocol: TCP
              volumeMounts:
-             - mountPath: "/blob"
+             - mountPath: "/xp"
                name: blob-pv-storage
         volumes:
           - name: blob-pv-storage
