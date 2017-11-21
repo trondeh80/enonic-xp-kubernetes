@@ -13,10 +13,10 @@ gcloud container clusters get-credentials enonic-xp-cluster
 # https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
 
 # Aktiver volume:
-create -f enonic-xp-blob-volume.yaml
+kubectl create -f enonic-xp-blob-volume.yaml
 
 # Aktiver claim:
-create -f enonic-blob-storage.yaml
+kubectl create -f enonic-blob-storage.yaml
 
 # Registrere image til google cloud:
 cd enonic-xp
@@ -28,3 +28,7 @@ gcloud container builds submit --tag gcr.io/enonic-xp-cloud/enonic-xp-image .
 # Spinn opp enonix-xp, og eksponér port 8080 publicly:
 kubectl apply -f enonic-xp.yaml
 kubectl apply -f http-service.yaml
+
+# Todo:
+Konvertere til GCEPersistantDisk (https://kubernetes.io/docs/concepts/storage/volumes/)
+- Samme mount vil "deles" mellom pods
