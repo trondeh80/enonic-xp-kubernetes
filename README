@@ -6,40 +6,29 @@ Jeg har satt opp et cluster i google cloud som heter "enonic-xp-cluster", i et p
 # 1. Installere kubernetes & gcloud.
 # 2. Aktivere google container registry API i google developer console.
 
-# hente ned credentials for cluster
+# hente ned credentials for cluster slik at kubernetes kan bruke det
 gcloud container clusters get-credentials enonic-xp-cluster
+
+# Aktivere Storage funksjonalitet
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+
+# Aktiver volume:
+kubectl create -f enonic-xp-blob-volume.yaml
+
+# Aktiver claim:
+kubectl create -f enonic-blob-storage.yaml
 
 # Registrere image til google cloud:
 cd enonic-xp
 gcloud container builds submit --tag gcr.io/enonic-xp-cloud/enonic-xp-image .
 
-# Nå kan du referere til dette bildet i k8s yaml filer: image: gcr.io/enonic-xp-cloud/enonic-xp-image - Se enonic-xp.yaml.
+# Nå kan du referere til dette bildet i k8s yaml filer:
+# enonic-xp.yaml: image: gcr.io/enonic-xp-cloud/enonic-xp-image
 
-# Når imaget er registrert hos googles container register. Spinn opp enonix-xp, og eksponér port 8080 publicly:
+# Spinn opp enonix-xp, og eksponér port 8080 publicly:
 kubectl apply -f enonic-xp.yaml
 kubectl apply -f http-service.yaml
 
-
-######
-# Aktivere clustering funksjonalitet
-######
-
-# Sette opp filserver
-https://console.cloud.google.com/launcher/details/click-to-deploy-images/singlefs?project=enonic-xp-cloud
-
-# Noder må mounte filsystemet på filserveren for å sette blobstore path
-
-
-
-
-################################################
-### Sette opp elasticsearch for seg selv:
-################################################
-
-# elasticsearch & service-account:  https://github.com/kubernetes/examples/blob/master/staging/elasticsearch/README.md
-kubectl create -f service-account.yaml
-kubectl create -f elasticsearch-replication-controller.yaml
-kubectl create -f service-account.yaml
-
-## Todo:
-Enonic xp docker bildet mangler oppsett for å koble mot elasticsearch serveren. elasticsarch.cfg filen må endres.
+# Todo:
+Konvertere til GCEPersistantDisk (https://kubernetes.io/docs/concepts/storage/volumes/)
+- Samme mount vil "deles" mellom pods
