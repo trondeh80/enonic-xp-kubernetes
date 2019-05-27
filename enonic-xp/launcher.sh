@@ -22,9 +22,18 @@ if [[ -d $XP_HOME ]]
 	fi
 
 else
-	echo "$XP_ROOT/home does not exist, copying files from distro"
+	echo "$XP_HOME does not exist, copying files from distro"
 	cp -r $XP_ROOT/home.org $XP_HOME
 fi
+
+# mount fileshare
+# mkdir $XP_BLOB
+# mount -t nfs singlefs-1-vm:/data $XP_BLOB
+
+# Setting blobstore:
+echo "baseDir = $XP_BLOB" > $XP_HOME/config/com.enonic.xp.blobstore.file.cfg
+
+mv /tmp/config/com.enonic.xp.elasticsearch.cfg $XP_HOME/config/com.enonic.xp.elasticsearch.cfg
 
 echo "Starting Enonic xp..."
 cd $XP_ROOT/bin ; ./server.sh $@

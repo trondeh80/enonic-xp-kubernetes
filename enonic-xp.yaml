@@ -1,10 +1,14 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: enonic-xp
   labels:
     app: enonic-xp
 spec:
+  selector:
+      matchLabels:
+        app: enonic-xp
+  serviceName: "enonic-xp"
   replicas: 1
   template:
     metadata:
@@ -25,3 +29,10 @@ spec:
              - containerPort: 8080
                name: enonic-xp
                protocol: TCP
+             volumeMounts:
+             - mountPath: "/xp"
+               name: blob-pv-storage
+        volumes:
+          - name: blob-pv-storage
+            persistentVolumeClaim:
+             claimName: blob-pv-claim
