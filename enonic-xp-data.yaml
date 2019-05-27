@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enonic-xp
+  labels:
+    app: enonic-xp
+spec:
+  selector:
+      matchLabels:
+        app: enonic-xp
+  serviceName: "enonic-xp"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: enonic-xp
+        component: enonic-xp
+    spec:
+        containers:
+           - name: enonic-xp
+             image: gcr.io/enonic-xp-cloud/enonic-xp-image
+             imagePullPolicy: Always
+             env:
+             - name: "CLUSTER_NAME"
+               value: "enonic-xp-cluster"
+             - name: "DISCOVERY_SERVICE"
+               value: "enonic-xp"
+             - name: "MASTER"
+               value: false
+             ports:
+             - containerPort: 8080
+               name: enonic-xp
+               protocol: TCP
+             volumeMounts:
+             - mountPath: "/xp"
+               name: blob-pv-storage
+        volumes:
+          - name: blob-pv-storage
+            persistentVolumeClaim:
+             claimName: blob-pv-claim
