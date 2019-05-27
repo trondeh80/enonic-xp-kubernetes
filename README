@@ -28,3 +28,7 @@ gcloud container builds submit --tag gcr.io/enonic-xp-cloud/enonic-xp-image .
 # Spinn opp enonic-xp, og eksponér port 8080 publicly:
 kubectl apply -f enonic-xp.yaml
 kubectl apply -f http-service.yaml
+
+# Todo:
+Konvertere til GCEPersistantDisk (https://kubernetes.io/docs/concepts/storage/volumes/)
+- Samme mount vil "deles" mellom pods
